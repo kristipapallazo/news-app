@@ -33,6 +33,11 @@ const handleReq = async () => {
 let isInitial = true;
 function App() {
   const [module, setModule] = useState<string>("");
+  const [lang, setLang] = useState<string>("");
+  const [date, setDate] = useState<string>();
+  const [keyWord, setKeyWord] = useState<string>("");
+  const [allItems, setLllItems] = useState<object[]>([]);
+  const [favoritesObj, setfavoritesObj] = useState();
   useEffect(() => {
     if (isInitial) {
       handleReq();

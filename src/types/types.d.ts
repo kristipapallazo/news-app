@@ -8,3 +8,12 @@ interface NewsAPI {
 }
 
 type SetStateFn<D> = Dispatch<SetStateAction<D>>;
+
+type FavSources = string[];
+type FavCategs = string[];
+type FavAuthors = string[];
+type FavoritesObj = {
+  sources: FavSources;
+  categs: FavCategs;
+  authors: FavAuthors;
+};
