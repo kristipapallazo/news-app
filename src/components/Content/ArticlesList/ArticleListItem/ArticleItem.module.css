@@ -1,0 +1,14 @@
+.article {
+  background-color: lightgray;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: var(--b-rad);
+}
+
+.article:hover {
+  box-shadow: 2px 2px 5px 0 gray;
+}
+.title {
+}
+.description {
+}

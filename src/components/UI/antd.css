@@ -1,0 +1,128 @@
+.ant-layout,
+.ant-layout-header,
+.ant-layout-footer,
+.ant-layout-sider-light,
+.ant-layout-sider-light .ant-layout-sider-trigger,
+.ant-menu-inline,
+.ant-menu-sub.ant-menu-inline {
+  background-color: white;
+}
+
+/* LAYOUT */
+.ant-layout-sider-has-trigger {
+  padding-bottom: 0;
+}
+
+/* SIDE TRIGER */
+.ant-layout-sider-trigger {
+  position: relative;
+  bottom: 48px;
+  border-right: 5px solid lightgray;
+}
+
+.ant-layout-sider-trigger:hover {
+  background-color: #e6f7ff;
+}
+
+/* MENU */
+.ant-menu-inline {
+  border-right: 0;
+}
+
+/* MENU-ITEM */
+.ant-menu-inline .ant-menu-item:not(:last-child) {
+  margin-bottom: 0;
+}
+
+.ant-menu-item.ant-menu-item-selected {
+  color: black;
+}
+
+/* SUBMENU */
+.ant-menu-sub.ant-menu-inline {
+  max-height: 33vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ant-menu-inline > .ant-menu-item,
+.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-sub.ant-menu-inline > .ant-menu-item,
+.ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+  height: 35px;
+}
+
+/* X icon in Drawer */
+.ant-drawer-close {
+  position: absolute;
+  right: 0;
+}
+
+/* DRAWER */
+.ant-drawer-body {
+  padding: 5px;
+}
+
+/* TABLE */
+.scrollable-table,
+.scrollable-table > .ant-spin-nested-loading,
+.scrollable-table .ant-spin-container,
+.scrollable-table .ant-table,
+.scrollable-table .ant-table-container {
+  height: 100%;
+}
+
+.scrollable-table .ant-spin-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-table .ant-table {
+  /* this is for table with pagination */
+  /* put "with-pagination" class alongside with "scrollable-table" classs */
+  height: calc(100% - 64px) !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-table .ant-table-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-table .ant-table-container > .ant-table-header {
+  flex-shrink: 1;
+  overflow: visible !important;
+}
+
+.ant-table-title,
+/* ROWS */
+.ant-table tfoot>tr>td,
+.ant-table tfoot>tr>th,
+.ant-table-tbody>tr>td,
+.ant-table-thead>tr>th {
+  padding: 12px;
+}
+
+/* SPIN */
+.ant-spin.ant-spin-spinning {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.group-dnd-table {
+  height: 100%;
+  overflow: auto;
+}
+
+.sub-group-dnd-table {
+  height: calc(100% - 100px);
+  overflow: auto;
+}
+
+/* Header */
+.main-header {
+  flex-shrink: 0;
+}

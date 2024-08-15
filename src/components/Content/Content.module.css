@@ -1,0 +1,8 @@
+.content {
+  flex-grow: 1;
+  min-height: 0; /* DO NOT DELETE: important to make the comp take the remaining height*/
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}

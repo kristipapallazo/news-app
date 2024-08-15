@@ -1,28 +1,41 @@
 import { MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { FC } from "react";
-import { SetStateFn } from "../../types/types";
+import { Module } from "../../types/types";
 import { Menu } from "antd";
 import { MenuItemType } from "antd/es/menu/interface";
-
-interface MainHeaderProps extends MenuProps {
-  module: string;
-  setModule: SetStateFn<string>;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { setModule } from "../../store/UISlice";
 
 // type MenuItem = Required<MenuProps>["items"][number];
 
-const MainHeader: FC<MainHeaderProps> = (props) => {
-  const { module, setModule } = props;
+const MainHeader: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const selectedArticle = useSelector(
+    (state: RootState) => state.ui.selectedArticle
+  );
+
+  const { module } = useSelector((state: RootState) => state.ui);
 
   const onClick: MenuProps["onClick"] = (e) => {
-    setModule(e.key);
+    dispatch(setModule(e.key as Module));
   };
 
+  const articleDisabled = selectedArticle.length > 0 ? false : true;
   const items: MenuItemType[] = [
     {
       key: "home",
       label: "Home",
+    },
+    {
+      key: "list",
+      label: "News",
+    },
+    {
+      key: "article",
+      label: "Article",
+      disabled: articleDisabled,
     },
     {
       key: "fav",
@@ -32,7 +45,7 @@ const MainHeader: FC<MainHeaderProps> = (props) => {
 
   return (
     <>
-      <Header>
+      <Header className="main-header">
         <Menu
           onClick={onClick}
           selectedKeys={[module]}

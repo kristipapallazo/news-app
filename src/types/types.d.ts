@@ -17,3 +17,22 @@ type FavoritesObj = {
   categs: FavCategs;
   authors: FavAuthors;
 };
+
+type Module = "home" | "list" | "article" | "fav";
+
+type SourceType = "news_api" | "nyc" | "guardian";
+
+interface Article {
+  id: string;
+  source: string;
+  author: string;
+  title: string;
+  description: string;
+  url: string;
+  urlToImage: string;
+  publishedAt: string;
+  content: string;
+}
+interface ResData {
+  articles: Article[];
+}
