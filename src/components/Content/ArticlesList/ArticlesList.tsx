@@ -12,7 +12,8 @@ const ArticlesList: FC = () => {
     <ArticleListItem key={article.id} article={article} />
   ));
 
-  return <div className={classes.list}>{items}</div>;
+  // return <div className={classes.list}>{items}</div>;
+  return <div className="articles-grid">{items}</div>;
 };
 
 export default ArticlesList;

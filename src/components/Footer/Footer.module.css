@@ -1,0 +1,53 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: gray;
+  font-weight: bold;
+  background-color: #333;
+  color: white;
+  flex-shrink: 0;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  margin-bottom: 1em;
+}
+
+.footer-links a {
+  color: white;
+  margin: 0 1em;
+  text-decoration: none;
+}
+
+.social-links a {
+  color: white;
+  margin: 0 0.5em;
+  text-decoration: none;
+}
+
+.subscribe-form {
+  margin-top: 1em;
+}
+
+.subscribe-form input {
+  padding: 0.5em;
+  width: 70%;
+  margin-right: 0.5em;
+}
+
+.subscribe-form button {
+  padding: 0.5em 1em;
+  background-color: #444;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.subscribe-form button:hover {
+  background-color: #555;
+}

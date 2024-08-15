@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArticles } from "./store/ArticlesSlice";
 import axios from "axios";
+import Footer from "./components/Footer/Footer";
 const { baseUrl } = NEWS_API;
 
 const handleReq = async (url: string) => {
@@ -69,6 +70,7 @@ function App() {
     <div className="app">
       <MainHeader />
       <Content />
+      <Footer />
     </div>
   );
 }

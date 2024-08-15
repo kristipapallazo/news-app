@@ -4,12 +4,22 @@ import classes from "./ArticleItem.module.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../store";
 import { setModule, setSelectedArticle } from "../../../../store/UISlice";
+import NotFoundImg from "../../../../assets/not-found.jpg";
 
 interface ArticleListItemProps {
   article: Article;
 }
 const ArticleListItem: FC<ArticleListItemProps> = ({ article }) => {
-  const { id, title, description, source, urlToImage } = article;
+  const {
+    id,
+    title,
+    description,
+    source,
+    urlToImage,
+    publishedAt,
+    author,
+    url,
+  } = article;
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClick: MouseEventHandler<HTMLDivElement> = () => {
@@ -19,10 +29,29 @@ const ArticleListItem: FC<ArticleListItemProps> = ({ article }) => {
 
   return (
     <div className={classes.article} onClick={handleClick}>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <p>{source}</p>
-      <img src={urlToImage} alt="test" width={100} height={100} />
+      <img
+        className={classes.img}
+        src={urlToImage || NotFoundImg}
+        alt={article.title}
+      />
+      <div className={classes.content}>
+        <h3 className={classes.title}>{title}</h3>
+        <p className={classes.desp}>{description}</p>
+        <small className={classes.date}>
+          {new Date(publishedAt).toLocaleDateString()}
+        </small>
+        <p className={classes.source}>
+          By {author} - {source}
+        </p>
+        <a
+          className={classes.link}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read more
+        </a>
+      </div>
     </div>
   );
 };
