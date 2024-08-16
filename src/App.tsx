@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { NEWS_API, NYC_API, G_API } from "./globals/index";
 import MainHeader from "./components/MainHeader/MainHeader";
 import Content from "./components/Content/Content";
-import { Module } from "./types/types";
+import { Module, SourceType } from "./types/types";
 import AxiosClient from "./client/axios";
 import "./components/UI/Antd.css";
 import { AppDispatch, RootState } from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchArticles } from "./store/ArticlesSlice";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import Footer from "./components/Footer/Footer";
+import { setIsMobile } from "./store/UISlice";
+import { Spin } from "antd";
+import { FiltersState } from "./types/redux";
 const { baseUrl } = NEWS_API;
 
 const handleReq = async (url: string) => {
@@ -44,33 +47,78 @@ const handleReq = async (url: string) => {
 let isInitial = true;
 function App() {
   const dispatch = useDispatch<AppDispatch>();
+
   const status = useSelector((state: RootState) => state.articles.status);
+  const filters = useSelector((state: RootState) => state.filters);
+
+  const memoizedFilters = useMemo(() => filters, [filters]);
+
+  const handleResize = useCallback(() => {
+    const isMobile = window.innerWidth <= 768;
+    dispatch(setIsMobile(isMobile));
+  }, [dispatch]);
+
+  useEffect(() => {
+    /* check device type */
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
 
   useEffect(() => {
     if (isInitial) {
-      // alert(1);
-      const url =
-        NEWS_API.baseUrl +
-        "/everything" +
-        "?q=test&" +
-        "from=2024-08-10" +
-        "&sortBy=popularity";
-      // handleReq(url);
-      const sourceUrls = [url];
-      dispatch(fetchArticles(sourceUrls));
+      handleResize();
+
       isInitial = false;
     }
-  }, [dispatch]);
+  }, [dispatch, handleResize]);
+  useEffect(() => {
+    const handleUrl = (source: SourceType | null): string => {
+      let baseUrl: string = NYC_API.baseUrl;
+      let route: string = "/everything";
 
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
+      switch (source) {
+        case "nyc":
+          baseUrl = NYC_API.baseUrl;
+          route = "/articlesearch.json";
+          break;
+        case "guardian":
+          baseUrl = G_API.baseUrl;
+          break;
+        default:
+          baseUrl = NEWS_API.baseUrl;
+          route = "/everything";
+          break;
+      }
+
+      const url = `${baseUrl}${route}?q=test`;
+
+      // const url = `${baseUrl}${route}?q=${keyword}${
+      //   date ? `&from=${date}` : ""
+      // }&sortBy=${sort}&pageSize=${pageSize}`;
+      return url;
+    };
+    const url = handleUrl(memoizedFilters.source);
+
+    const url2 = `${NYC_API.baseUrl}/articlesearch.json?q=e`;
+
+    // handleReq(url);
+    const config: AxiosRequestConfig = {
+      params: { q: memoizedFilters.keyword, date: memoizedFilters.date },
+    };
+    const sourceUrls = [url];
+    dispatch(fetchArticles({ sourceUrls }));
+  }, [memoizedFilters, dispatch]);
 
   return (
     <div className="app">
       <MainHeader />
       <Content />
       <Footer />
+      <Spin
+        spinning={status === "loading" ? true : false}
+        // percent={percent}
+        fullscreen
+      />
     </div>
   );
 }

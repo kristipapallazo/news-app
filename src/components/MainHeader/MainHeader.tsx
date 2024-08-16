@@ -7,6 +7,8 @@ import { MenuItemType } from "antd/es/menu/interface";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { setModule } from "../../store/UISlice";
+import SourceSelect from "../PrefHeader/SourceSelect";
+import classes from "./MainHeader.module.css";
 
 // type MenuItem = Required<MenuProps>["items"][number];
 
@@ -44,17 +46,16 @@ const MainHeader: FC = () => {
   ];
 
   return (
-    <>
-      <Header className="main-header">
-        <Menu
-          onClick={onClick}
-          selectedKeys={[module]}
-          mode="horizontal"
-          items={items}
-          theme="light"
-        />
-      </Header>
-    </>
+    <Header className={classes.header}>
+      <Menu
+        onClick={onClick}
+        selectedKeys={[module]}
+        mode="horizontal"
+        items={items}
+        theme="light"
+      />
+      <SourceSelect />
+    </Header>
   );
 };
 

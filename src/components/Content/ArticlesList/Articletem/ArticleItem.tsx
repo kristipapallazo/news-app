@@ -1,25 +1,17 @@
-import { FC, MouseEventHandler } from "react";
+import { FC, memo, MouseEventHandler } from "react";
 import { Article } from "../../../../types/types";
-import classes from "./ArticleItem.module.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../../store";
 import { setModule, setSelectedArticle } from "../../../../store/UISlice";
 import NotFoundImg from "../../../../assets/not-found.jpg";
+import classes from "./ArticleItem.module.css";
 
-interface ArticleListItemProps {
+interface ArticleItemProps {
   article: Article;
 }
-const ArticleListItem: FC<ArticleListItemProps> = ({ article }) => {
-  const {
-    id,
-    title,
-    description,
-    source,
-    urlToImage,
-    publishedAt,
-    author,
-    url,
-  } = article;
+const ArticleItem: FC<ArticleItemProps> = memo(({ article }) => {
+  const { id, title, content, source, urlToImage, publishedAt, author, url } =
+    article;
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClick: MouseEventHandler<HTMLDivElement> = () => {
@@ -33,27 +25,30 @@ const ArticleListItem: FC<ArticleListItemProps> = ({ article }) => {
         className={classes.img}
         src={urlToImage || NotFoundImg}
         alt={article.title}
+        loading="lazy"
       />
-      <div className={classes.content}>
+      <div className={classes.contentCont}>
         <h3 className={classes.title}>{title}</h3>
-        <p className={classes.desp}>{description}</p>
-        <small className={classes.date}>
-          {new Date(publishedAt).toLocaleDateString()}
-        </small>
+        <p className={classes.content}>{content}</p>
         <p className={classes.source}>
           By {author} - {source}
         </p>
-        <a
-          className={classes.link}
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Read more
-        </a>
+        <div className={classes.bottomLine}>
+          <small className={classes.date}>
+            {new Date(publishedAt).toLocaleDateString()}
+          </small>
+          <a
+            className={classes.link}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read more
+          </a>
+        </div>
       </div>
     </div>
   );
-};
+});
 
-export default ArticleListItem;
+export default ArticleItem;

@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+
 // interface configObj {
 //   newsAPI: string;
 // }
@@ -21,6 +22,16 @@ type FavoritesObj = {
 type Module = "home" | "list" | "article" | "fav";
 
 type SourceType = "news_api" | "nyc" | "guardian";
+type SourceTypeArr = {
+  id: SourceType;
+  name: string;
+}[];
+
+type Categ = string | null;
+type CategTypeArr = {
+  id: Categ;
+  name: string;
+}[];
 
 interface Article {
   id: string;

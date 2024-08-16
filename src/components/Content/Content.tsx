@@ -1,11 +1,12 @@
 import { FC } from "react";
-import Home from "../../pages/Home";
-import Favorites from "../../pages/Favorites";
+import HomePage from "../../pages/HomePage/HomePage";
+import Favorites from "../../pages/FavoritesPage/FavoritesPage";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import ArticlePage from "../../pages/ArticlePage/ArticlePage";
-import ArticlesList from "./ArticlesList/ArticlesList";
 import classes from "./Content.module.css";
+import NewsPage from "../../pages/NewsPage/NewsPage";
+import { NewsPageCtxProvider } from "../../context/NewsPageCtx";
 
 const Content: FC = () => {
   const { module } = useSelector((state: RootState) => state.ui);
@@ -13,11 +14,13 @@ const Content: FC = () => {
   return (
     <div className={classes.content}>
       {module === "home" ? (
-        <Home />
+        <HomePage />
       ) : module === "fav" ? (
         <Favorites />
       ) : module === "list" ? (
-        <ArticlesList />
+        <NewsPageCtxProvider>
+          <NewsPage />
+        </NewsPageCtxProvider>
       ) : module === "article" ? (
         <ArticlePage />
       ) : (

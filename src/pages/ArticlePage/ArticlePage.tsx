@@ -12,14 +12,27 @@ const ArticlePage: FC = () => {
   const article = articles.find(({ id }) => id === selectedArticle);
   console.log("article", article);
 
-  const { title, description, source, urlToImage } = article!;
+  const { title, source, author, publishedAt, content, url, urlToImage } =
+    article!;
 
   return (
     <div className={classes.article}>
-      <h3>{title}</h3>
-      <p>{description}</p>
-      <p>{source}</p>
-      <img src={urlToImage} alt="test" width={100} height={100} />
+      <h1 className={classes.title}>{title}</h1>
+      <img src={urlToImage} alt={title} className={classes.img} />
+      <div className={classes.meta}>
+        <p>By {author}</p>
+        <p>{new Date(publishedAt).toLocaleDateString()}</p>
+        <p>Source: {source}</p>
+      </div>
+      <p className={classes.content}>{content}</p>
+      <a
+        className={classes.link}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Read the full article
+      </a>
     </div>
   );
 };

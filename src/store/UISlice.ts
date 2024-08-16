@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UIState } from "../types/redux";
-import { Module } from "../types/types";
 
 const initialState: UIState = {
   module: "home",
   selectedArticle: "",
+  isMobile: false,
 };
 
 const filtersSlice = createSlice({
@@ -17,8 +17,12 @@ const filtersSlice = createSlice({
     setSelectedArticle: (state, action) => {
       state.selectedArticle = action.payload;
     },
+    setIsMobile: (state, action) => {
+      state.isMobile = action.payload;
+    },
   },
 });
 
-export const { setModule, setSelectedArticle } = filtersSlice.actions;
+export const { setModule, setSelectedArticle, setIsMobile } =
+  filtersSlice.actions;
 export default filtersSlice.reducer;

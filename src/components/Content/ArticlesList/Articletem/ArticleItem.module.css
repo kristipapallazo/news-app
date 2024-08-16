@@ -1,11 +1,13 @@
 .article {
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: var(b-rad);
   overflow: hidden;
   background-color: white;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .article:hover {
@@ -16,19 +18,30 @@
 .img {
   width: 100%;
   height: 200px;
+  max-height: 200px !important;
   object-fit: cover;
 }
 
-.content {
+.contentCont {
   padding: 1em;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
   margin: 0 0 0.5em;
   font-size: 1.2em;
 }
+.content {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  /* margin-bottom: 10px; */
+}
 
-.desp,
+.content,
 .source {
   margin: 0 0 1em;
   color: #555;
@@ -36,12 +49,11 @@
 
 .date {
   display: block;
-  margin-bottom: 0.5em;
   color: gray;
 }
 
 .link {
-  color: #007bff;
+  color: var(--primary-blue-c);
   text-decoration: none;
   font-weight: bold;
 }
@@ -50,15 +62,24 @@
   text-decoration: underline;
 }
 
+.bottomLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ddd;
+}
+
 /* fixed height */
-.date,
-.link,
-.source {
+.img,
+.source,
+.bottomLine,
+.title {
   flex-shrink: 0;
 }
 
 /* remaiaining height */
-.title,
-.desp {
+.contentCont,
+.content {
   flex-grow: 1;
+  min-height: 0;
 }

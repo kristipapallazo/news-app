@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FiltersState } from "../types/redux";
 
 const initialState: FiltersState = {
-  keyword: "",
-  category: "",
-  source: "",
+  keyword: "text",
+  categ: null,
+  source: "news_api",
   date: "",
+  toDate: "",
 };
 
 const filtersSlice = createSlice({
@@ -15,8 +16,8 @@ const filtersSlice = createSlice({
     setKeyword: (state, action) => {
       state.keyword = action.payload;
     },
-    setCategory: (state, action) => {
-      state.category = action.payload;
+    setCateg: (state, action) => {
+      state.categ = action.payload;
     },
     setSource: (state, action) => {
       state.source = action.payload;
@@ -24,9 +25,12 @@ const filtersSlice = createSlice({
     setDate: (state, action) => {
       state.date = action.payload;
     },
+    setToDate: (state, action) => {
+      state.date = action.payload;
+    },
   },
 });
 
-export const { setKeyword, setCategory, setSource, setDate } =
+export const { setKeyword, setCateg, setSource, setDate, setToDate } =
   filtersSlice.actions;
 export default filtersSlice.reducer;

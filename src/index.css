@@ -13,7 +13,11 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* css variables */
-  --b-rad: 5px;
+  --b-rad: 8px;
+  --b-rad-sm: 5px;
+  --primary-gray-c: rgb(51, 51, 51);
+  --primary-gray-c-op: rgb(51, 51, 51, 0.9);
+  --primary-blue-c: #007bff;
 }
 
 * {
@@ -28,12 +32,4 @@ body {
 }
 #root {
   height: 100%;
-}
-
-/* testing */
-.articles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1em;
-  padding: 1em;
 }
