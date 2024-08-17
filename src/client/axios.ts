@@ -3,10 +3,10 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
+  isAxiosError,
   // ResponseType,
 } from "axios";
 import { G_API, NEWS_API, NYC_API } from "../globals";
-import { SourceType } from "../types/types";
 import { transformRes } from "../utils/transformReqData";
 
 const instance = axios.create({
@@ -15,23 +15,26 @@ const instance = axios.create({
   // headers: { "Content-Type": "application/json" },
 });
 
-const transformUrl = (url: string): { newUrl: string; dSource: string } => {
+type Res<T> = {
+  data?: T;
+  error?: boolean;
+  message?: string;
+};
+
+const transformUrl = (url: string): string => {
   let newUrl: string = url;
-  let dSource: SourceType = "news_api";
   if (url.includes(NEWS_API.baseUrl)) {
-    newUrl += `&apiKey=${NEWS_API.apiKey}`;
+    newUrl += `apiKey=${NEWS_API.apiKey}`;
   } else if (url.includes(NYC_API.baseUrl)) {
-    newUrl += `&api-key=${NYC_API.apiKey}`;
-    dSource = "nyc";
+    newUrl += `api-key=${NYC_API.apiKey}`;
   } else if (url.includes(G_API.baseUrl)) {
-    newUrl += `&api-key=${G_API.apiKey}`;
-    dSource = "guardian";
+    newUrl += `api-key=${G_API.apiKey}`;
   } else {
     // in any case, define to the default one
-    newUrl += `&apiKey=${NEWS_API.apiKey}`;
+    newUrl += `apiKey=${NEWS_API.apiKey}`;
   }
 
-  return { newUrl, dSource };
+  return newUrl;
 };
 
 instance.interceptors.request.use(
@@ -45,11 +48,21 @@ instance.interceptors.request.use(
     if (!url) {
       alert("Url does not exist!");
     }
-    const { newUrl, dSource } = transformUrl(url!);
+    const newUrl = transformUrl(url!);
     config.url = newUrl;
-    config.params = params ? { ...params, dSource } : { dSource };
 
     console.log("config :>> ", config);
+    config.transformResponse = function (data) {
+      /* transform response only in case of error occur */
+      console.log("data :>> ", data);
+      let newData = JSON.parse(data);
+      console.log("newData :>> ", newData);
+      if (newData.status === "error") {
+        newData = newData.message;
+      }
+
+      return newData;
+    };
     return config;
   },
   (error: AxiosError) => Promise.reject(error)
@@ -70,8 +83,10 @@ instance.interceptors.response.use(
   },
   (error: AxiosError) => {
     console.log("error in response catch :>> ", error);
-
-    return Promise.reject({ error: true, message: error.message });
+    return Promise.reject({
+      error: true,
+      message: error.response?.data || error.message,
+    });
     // return Promise.reject(error);
   }
 );
@@ -84,6 +99,7 @@ export class AxiosClientClass {
   async get<T>(url: string, config?: AxiosRequestConfig<T>) {
     try {
       const response = await this.instance.get<T>(url, config);
+      console.log("response myres :>> ", response);
       if (!response || !response.data)
         throw new Error(response?.statusText || "error occured during the req");
       return { data: response.data };

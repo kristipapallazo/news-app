@@ -21,10 +21,16 @@ type FavoritesObj = {
 
 type Module = "home" | "list" | "article" | "fav";
 
+type DSourceType = "news_api" | "nyc" | "guardian";
+type DSourceTypeArr = {
+  value: SourceType;
+  label: string;
+}[];
+
 type SourceType = "news_api" | "nyc" | "guardian";
 type SourceTypeArr = {
-  id: SourceType;
-  name: string;
+  value: SourceType;
+  label: string;
 }[];
 
 type Categ = string | null;

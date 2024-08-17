@@ -2,35 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FiltersState } from "../types/redux";
 
 const initialState: FiltersState = {
-  keyword: "text",
-  categ: null,
-  source: "news_api",
-  date: "",
-  toDate: "",
+  everything: { q: "test" },
+  topheadlines: {},
+  sources: {},
 };
 
 const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    setKeyword: (state, action) => {
-      state.keyword = action.payload;
+    setEverything: (state, action) => {
+      state.everything = action.payload;
     },
-    setCateg: (state, action) => {
-      state.categ = action.payload;
+    setTopHeadlines: (state, action) => {
+      state.topheadlines = action.payload;
     },
-    setSource: (state, action) => {
-      state.source = action.payload;
-    },
-    setDate: (state, action) => {
-      state.date = action.payload;
-    },
-    setToDate: (state, action) => {
-      state.date = action.payload;
+    setSources: (state, action) => {
+      state.sources = action.payload;
     },
   },
 });
 
-export const { setKeyword, setCateg, setSource, setDate, setToDate } =
+export const { setEverything, setTopHeadlines, setSources } =
   filtersSlice.actions;
 export default filtersSlice.reducer;

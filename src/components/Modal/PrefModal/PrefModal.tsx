@@ -1,13 +1,15 @@
 import { FC } from "react";
 import { Form, Select, Input, InputNumber } from "antd";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
 import useNewsPageCtx from "../../../hooks/useNewsPageCtx";
 import DatePickerComp from "../../PrefHeader/DatePicker";
 import LargeModal from "../../UI/Modals";
 import classes from "./PrefModule.module.css";
-
-const { Option } = Select;
+import { S1_PARAMS } from "../../../globals";
+import dayjs from "dayjs";
+import { setEverything } from "../../../store/FiltersSlice";
+import { EverythingParams } from "../../../types/redux";
 
 interface PrefModalProps {
   open: boolean;
@@ -15,9 +17,11 @@ interface PrefModalProps {
 
 const PrefModal: FC<PrefModalProps> = ({ open }) => {
   const { closePrefModal: onClose } = useNewsPageCtx();
-  const { categ, source, keyword, date } = useSelector(
-    (state: RootState) => state.filters
+  const dispatch = useDispatch<AppDispatch>();
+  const everything = useSelector(
+    (state: RootState) => state.filters.everything
   );
+  const route = useSelector((state: RootState) => state.ui.route);
 
   const [form] = Form.useForm();
 
@@ -33,9 +37,61 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleFormSubmit = (values: any) => {
     console.log("Submitted values:", values);
-    // Handle form submission
+    const { searchIn, from, to } = values;
+    if (searchIn) {
+      values.searchIn = values.searchIn.join(",");
+    }
+    if (from) {
+      values.from = dayjs(values.from).toISOString();
+    }
+    if (to) {
+      values.to = dayjs(values.to).toISOString();
+    }
+    console.log("values:", values);
+    dispatch(setEverything(values));
+
     onClose();
   };
+
+  const searchInOptions = S1_PARAMS.searchIn.map((i) => ({
+    value: i,
+    label: i,
+  }));
+
+  const langOptions = S1_PARAMS.language.map((i) => ({
+    value: i,
+    label: i,
+  }));
+
+  const sortByOptions = S1_PARAMS.sortBy.map((i) => ({
+    value: i,
+    label: i,
+  }));
+  const transformInitialValues = (values: Partial<EverythingParams>) => {
+    const newValues: any = { ...values };
+    const { searchIn, from, to } = values;
+    if (searchIn && searchIn.includes(",")) {
+      const stringToArray = (str: string) => {
+        const arr = str
+          .split(",")
+          .map((item: string) => item.trim())
+          .filter((item: string) => item !== "");
+        console.log("arr", arr);
+        return arr;
+      };
+      newValues.searchIn = stringToArray(searchIn);
+    }
+    // if (from) {
+    //   values.from = dayjs(values.from);
+    // }
+    // if (to) {
+    //   values.to = dayjs(values.to);
+    // }
+
+    return newValues;
+  };
+  const properInitialValues = transformInitialValues(everything);
+  console.log("properInitialValues :>> ", properInitialValues);
 
   return (
     <LargeModal
@@ -44,17 +100,25 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleFormSubmit}
+        initialValues={properInitialValues}
+      >
+        <Form.Item label="Search query" name="q" required>
+          <Input placeholder="Seach query" />
+        </Form.Item>
         <Form.Item label="Search In" name="searchIn">
-          <Select mode="multiple" placeholder="Select fields to search in">
-            <Option value="title">Title</Option>
-            <Option value="description">Description</Option>
-            <Option value="content">Content</Option>
-          </Select>
+          <Select
+            options={searchInOptions}
+            mode="multiple"
+            placeholder="Select fields to search in"
+          />
         </Form.Item>
 
         <Form.Item label="Sources" name="sources">
-          <Input placeholder="Comma-separated sources" />
+          <Input placeholder="Comma-separated sources" max={20} />
         </Form.Item>
 
         <Form.Item label="Domains" name="domains">
@@ -74,19 +138,11 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
         </Form.Item>
 
         <Form.Item label="Language" name="language">
-          <Select placeholder="Select language">
-            <Option value="en">English</Option>
-            <Option value="fr">French</Option>
-            <Option value="es">Spanish</Option>
-          </Select>
+          <Select options={langOptions} placeholder="Select language" />
         </Form.Item>
 
         <Form.Item label="Sort By" name="sortBy">
-          <Select placeholder="Select sorting">
-            <Option value="relevancy">Relevancy</Option>
-            <Option value="popularity">Popularity</Option>
-            <Option value="publishedAt">Published At</Option>
-          </Select>
+          <Select options={sortByOptions} placeholder="Select sorting" />
         </Form.Item>
 
         <Form.Item label="Page Size" name="pageSize">

@@ -16,7 +16,7 @@ const PrefHeader: FC = () => {
 
   return (
     <div className={classes.header}>
-      <Row gutter={[16, 16]} style={{ flex: 1 }}>
+      {/* <Row gutter={[16, 16]} style={{ flex: 1 }}>
         <Col xs={24} sm={12} md={6}>
           <SourceSelect />
         </Col>
@@ -32,7 +32,7 @@ const PrefHeader: FC = () => {
         <Col xs={24} sm={12} md={6}>
           <InputKeyword />
         </Col>
-      </Row>
+      </Row> */}
       <PrefModuleBtn />
     </div>
   );

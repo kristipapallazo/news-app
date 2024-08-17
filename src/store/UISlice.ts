@@ -5,6 +5,8 @@ const initialState: UIState = {
   module: "home",
   selectedArticle: "",
   isMobile: false,
+  dSource: "news_api",
+  route: "",
 };
 
 const filtersSlice = createSlice({
@@ -20,9 +22,20 @@ const filtersSlice = createSlice({
     setIsMobile: (state, action) => {
       state.isMobile = action.payload;
     },
+    setDSource: (state, action) => {
+      state.dSource = action.payload;
+    },
+    setRoute: (state, action) => {
+      state.route = action.payload;
+    },
   },
 });
 
-export const { setModule, setSelectedArticle, setIsMobile } =
-  filtersSlice.actions;
+export const {
+  setModule,
+  setSelectedArticle,
+  setIsMobile,
+  setDSource,
+  setRoute,
+} = filtersSlice.actions;
 export default filtersSlice.reducer;

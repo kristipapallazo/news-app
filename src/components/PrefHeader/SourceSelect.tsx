@@ -1,30 +1,29 @@
 import { FC } from "react";
 import { SourceTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { setSource } from "../../store/FiltersSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
+import { Source } from "../../types/redux";
+import { setEverything } from "../../store/FiltersSlice";
 
-// interface SourceSelectProps extends SelectProps {
-//   dataSource: SourceType;
-// }
-
-const SourceSelect: FC<SelectProps> = ({ ...props }) => {
+interface SourceSelect extends SelectProps {
+  source: Source;
+}
+const SourceSelect: FC<SourceSelect> = ({ source, ...props }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const source = useSelector((state: RootState) => state.filters.source);
 
   const sourceTypeObj: SourceTypeArr = [
-    { id: "news_api", name: "News Api" },
-    { id: "nyc", name: "NYC" },
-    { id: "guardian", name: "Guardian" },
+    { value: "news_api", label: "News Api" },
+    { value: "nyc", label: "NYC" },
+    { value: "guardian", label: "Guardian" },
   ];
-  const options = sourceTypeObj.map(({ id, name }) => ({
-    value: id,
-    name: name,
+  const options = sourceTypeObj.map(({ value, label }) => ({
+    value,
+    label,
   }));
 
   const handleSourceChange = (value: string) => {
-    dispatch(setSource(value));
+    dispatch(setEverything({ source: value }));
   };
   return (
     <Select
@@ -32,7 +31,7 @@ const SourceSelect: FC<SelectProps> = ({ ...props }) => {
       placeholder="Select Source"
       value={source}
       onChange={handleSourceChange}
-      // style={{ width: "100%" }}
+      style={{ width: "100%" }}
       {...props}
     />
   );

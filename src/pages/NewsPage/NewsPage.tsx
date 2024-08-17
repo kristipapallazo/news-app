@@ -6,6 +6,7 @@ import useNewsPageCtx from "../../hooks/useNewsPageCtx";
 import PrefModal from "../../components/Modal/PrefModal/PrefModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import MessageLabel from "../../components/UI/MessageLabel/MessageLabel";
 
 // const NewsApiTab: FC = () => {
 //   return test;
@@ -13,13 +14,17 @@ import { RootState } from "../../store";
 
 const NewsPage: FC = () => {
   const { isPrefModalOpen } = useNewsPageCtx();
-  const source = useSelector((state: RootState) => state.filters.source);
+  const { status, message } = useSelector((state: RootState) => state.articles);
 
   return (
     <div className={classes.news}>
       <PrefHeader />
-      <ArticlesList />
       {isPrefModalOpen && <PrefModal open={isPrefModalOpen} />}
+      {status === "failed" ? (
+        <MessageLabel label={message!} />
+      ) : (
+        <ArticlesList />
+      )}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import "./App.css";
 import { NEWS_API, NYC_API, G_API } from "./globals/index";
 import MainHeader from "./components/MainHeader/MainHeader";
 import Content from "./components/Content/Content";
-import { Module, SourceType } from "./types/types";
+import { DSourceType, Module, SourceType } from "./types/types";
 import AxiosClient from "./client/axios";
 import "./components/UI/Antd.css";
 import { AppDispatch, RootState } from "./store";
@@ -49,7 +49,10 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   const status = useSelector((state: RootState) => state.articles.status);
-  const filters = useSelector((state: RootState) => state.filters);
+  const filters = useSelector((state: RootState) => state.filters.everything);
+  const dSource = useSelector((state: RootState) => state.ui.dSource);
+
+  console.log("filters :>> ", filters);
 
   const memoizedFilters = useMemo(() => filters, [filters]);
 
@@ -72,7 +75,7 @@ function App() {
     }
   }, [dispatch, handleResize]);
   useEffect(() => {
-    const handleUrl = (source: SourceType | null): string => {
+    const handleUrl = (source: DSourceType | null): string => {
       let baseUrl: string = NYC_API.baseUrl;
       let route: string = "/everything";
 
@@ -90,24 +93,24 @@ function App() {
           break;
       }
 
-      const url = `${baseUrl}${route}?q=test`;
+      const url = `${baseUrl}${route}?`;
 
       // const url = `${baseUrl}${route}?q=${keyword}${
       //   date ? `&from=${date}` : ""
       // }&sortBy=${sort}&pageSize=${pageSize}`;
       return url;
     };
-    const url = handleUrl(memoizedFilters.source);
+    const url = handleUrl(dSource);
 
-    const url2 = `${NYC_API.baseUrl}/articlesearch.json?q=e`;
+    // const url2 = `${NYC_API.baseUrl}/articlesearch.json?q=e`;
 
     // handleReq(url);
+    console.log("memoizeFilter", memoizedFilters);
     const config: AxiosRequestConfig = {
-      params: { q: memoizedFilters.keyword, date: memoizedFilters.date },
+      params: { ...memoizedFilters, dSource },
     };
-    const sourceUrls = [url];
-    dispatch(fetchArticles({ sourceUrls }));
-  }, [memoizedFilters, dispatch]);
+    dispatch(fetchArticles({ url, config }));
+  }, [memoizedFilters, dispatch, dSource]);
 
   return (
     <div className="app">

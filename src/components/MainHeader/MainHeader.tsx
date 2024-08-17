@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "../../store";
 import { setModule } from "../../store/UISlice";
 import SourceSelect from "../PrefHeader/SourceSelect";
 import classes from "./MainHeader.module.css";
+import DSourceSelect from "./DSourceSelect";
 
 // type MenuItem = Required<MenuProps>["items"][number];
 
@@ -54,7 +55,7 @@ const MainHeader: FC = () => {
         items={items}
         theme="light"
       />
-      <SourceSelect />
+      <DSourceSelect />
     </Header>
   );
 };

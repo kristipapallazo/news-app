@@ -8,28 +8,37 @@ import { AxiosRequestConfig } from "axios";
 const initialState: ArticleState = {
   articles: [],
   status: "idle",
-  error: null,
+  message: null,
 };
 
 interface FetchArticlesPayload {
-  sourceUrls: string[];
+  url: string;
   config?: AxiosRequestConfig;
 }
 
-export const fetchArticles = createAsyncThunk(
-  "articles/fetchArticles",
-  async (payload: FetchArticlesPayload) => {
-    const { sourceUrls, config } = payload;
-    console.log("config :>> ", config);
-    const responses = await Promise.all(
-      sourceUrls.map((url) => AxiosClient.get<ResData>(url, config))
-    );
-    console.log("responses :>> ", responses);
-    /* check later */
-    return responses.flatMap((response) => response.data!.articles);
-    // return responses.map((response) => response.data.articles).flat();
+export const fetchArticles = createAsyncThunk<
+  ResData["articles"], // Return type
+  FetchArticlesPayload, // Argument type
+  { rejectValue: string } // Custom error payload type
+>("articles/fetchArticles", async (payload, { rejectWithValue }) => {
+  const { url, config } = payload;
+  console.log("config :>> ", config);
+  console.log("url :>> ", url);
+  const response = await AxiosClient.get<ResData>(url, config);
+  if (response.error) {
+    return rejectWithValue(response.message);
   }
-);
+
+  return response.data!.articles;
+  // const responses = await Promise.all(
+  //   sourceUrls.map((url) => AxiosClient.get<ResData>(url, config))
+  // );
+  // return responses.flatMap((response) => {
+  //   console.log("response.data :>> ", response.data);
+  //   return response.data!.articles;
+  // });
+  // return responses.map((response) => response.data.articles).flat();
+});
 
 const articlesSlice = createSlice({
   name: "articles",
@@ -41,13 +50,14 @@ const articlesSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchArticles.fulfilled, (state, action) => {
-        console.log("state, action", state, action);
         state.status = "succeeded";
         state.articles = action.payload;
       })
       .addCase(fetchArticles.rejected, (state, action) => {
+        console.log("action", action);
+
         state.status = "failed";
-        state.error = action.error.message || "Failed to fetch articles";
+        state.message = action.payload || "Failed to fetch articles";
       });
   },
 });

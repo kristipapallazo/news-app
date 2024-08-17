@@ -1,17 +1,64 @@
-import { Article, Categ, Module, SourceType } from "./types";
+import { Article, Categ, DSourceType, Module, SourceType } from "./types";
 
 interface ArticleState {
   articles: Article[];
   status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
+  message: string | null;
 }
 
+type SearchIn = "title" | "description" | "content";
+type Source = string | null;
+type Domains = string | null;
+type ExcludeDomains = string | null;
+type Date = string | null;
+type Language = string | null;
+type SortBy = "relevancy" | "popularity" | "publishedAt";
+type PageSize = number | null;
+type Page = number;
+
+interface EverythingParams {
+  q: string;
+  searchIn: SearchIn;
+  source: Source;
+  domains: Domains;
+  excludeDomains: ExcludeDomains;
+  from: Date;
+  to: Date;
+  language: Language;
+  sortBy: SortBy;
+  pageSize: PageSize;
+  page: Page;
+}
+interface TopHeadlinesParams {
+  q: string;
+  searchIn: SearchIn;
+  source: Source;
+  domains: Domains;
+  excludeDomains: ExcludeDomains;
+  from: From;
+  to: To;
+  language: Language;
+  sortBy: SortBy;
+  pageSize: PageSize;
+  page: Page;
+}
+interface SourcesParams {
+  q: string;
+  searchIn: SearchIn;
+  source: Source;
+  domains: Domains;
+  excludeDomains: ExcludeDomains;
+  from: From;
+  to: To;
+  language: Language;
+  sortBy: SortBy;
+  pageSize: PageSize;
+  page: Page;
+}
 interface FiltersState {
-  keyword: string;
-  categ: Categ;
-  source: SourceType | null;
-  date: string;
-  toDate: string;
+  everything: Partial<EverythingParams>;
+  topheadlines: Partial<TopHeadlinesParams>;
+  sources: Partial<SourcesParams>;
 }
 
 /* news api */
@@ -42,10 +89,13 @@ interface NewsTypeParams {
   category: Category;
 }
 
+type Route = "everything" | "top-headlines" | "sources"; /* check later */
 interface UIState {
   module: Module;
   selectedArticle: string;
   isMobile: boolean;
+  dSource: DSourceType;
+  route: Route;
 }
 
 interface UserPrefState {
