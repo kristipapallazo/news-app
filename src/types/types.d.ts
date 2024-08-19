@@ -50,6 +50,12 @@ interface Article {
   publishedAt: string;
   content: string;
 }
-interface ResData {
-  articles: Article[];
+
+type Articles = Article[];
+/* check later */
+type Sources = Article[];
+
+interface FetchArticlesPayload {
+  url: string;
+  config?: AxiosRequestConfig;
 }

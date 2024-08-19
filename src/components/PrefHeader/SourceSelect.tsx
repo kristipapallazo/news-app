@@ -1,16 +1,19 @@
 import { FC } from "react";
 import { SourceTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
 import { Source } from "../../types/redux";
-import { setEverything } from "../../store/FiltersSlice";
+import { setEverything } from "../../store/Slices/FiltersSlice";
 
 interface SourceSelect extends SelectProps {
-  source: Source;
+  source?: Source;
 }
 const SourceSelect: FC<SourceSelect> = ({ source, ...props }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const everything = useSelector(
+    (state: RootState) => state.filters.everything
+  );
 
   const sourceTypeObj: SourceTypeArr = [
     { value: "news_api", label: "News Api" },

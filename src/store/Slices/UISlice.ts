@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UIState } from "../types/redux";
+import { UIState } from "../../types/redux";
 
 const initialState: UIState = {
   module: "home",
   selectedArticle: "",
   isMobile: false,
   dSource: "news_api",
-  route: "",
+  route: "everything",
 };
 
 const filtersSlice = createSlice({

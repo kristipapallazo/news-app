@@ -3,7 +3,7 @@ import { DSourceTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setDSource } from "../../store/UISlice";
+import { setDSource } from "../../store/Slices/UISlice";
 
 const DSourceSelect: FC<SelectProps> = ({ ...props }) => {
   const dispatch = useDispatch<AppDispatch>();

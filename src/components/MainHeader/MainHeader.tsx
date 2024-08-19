@@ -6,7 +6,7 @@ import { Menu } from "antd";
 import { MenuItemType } from "antd/es/menu/interface";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setModule } from "../../store/UISlice";
+import { setModule } from "../../store/Slices/UISlice";
 import SourceSelect from "../PrefHeader/SourceSelect";
 import classes from "./MainHeader.module.css";
 import DSourceSelect from "./DSourceSelect";

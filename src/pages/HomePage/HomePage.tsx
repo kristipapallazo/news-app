@@ -3,7 +3,7 @@ import classes from "./HomePage.module.css";
 import { Button } from "antd";
 import { Module } from "../../types/types";
 import { useDispatch, useSelector } from "react-redux";
-import { setModule } from "../../store/UISlice";
+import { setModule } from "../../store/Slices/UISlice";
 import { AppDispatch, RootState } from "../../store";
 import { defineClass } from "../../utils";
 

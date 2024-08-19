@@ -3,7 +3,7 @@ import { CategTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setCateg } from "../../store/FiltersSlice";
+import { setCateg } from "../../store/Slices/FiltersSlice";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CategsSelectProps extends SelectProps {

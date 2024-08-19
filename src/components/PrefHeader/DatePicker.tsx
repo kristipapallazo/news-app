@@ -15,25 +15,24 @@ const DatePickerComp: FC<DatePickerCompProps> = ({
   type = "from",
   ...props
 }) => {
-  // const dispatch = useDispatch<AppDispatch>();
-  // const date = useSelector((state: RootState) => state.filters.date);
+  const dispatch = useDispatch<AppDispatch>();
 
-  // const handleDateChange: DatePickerProps["onChange"] = (date, dateString) => {
-  //   console.log("date, dateString", date, dateString);
-  //   /* check later (based on type, modify from date or to date) */
-  //   if (type === "from") {
-  //     dispatch(setDate(dateString));
-  //   } else {
-  //     dispatch(setToDate(dateString));
-  //   }
-  // };
+  const handleDateChange: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log("date, dateString", date, dateString);
+    /* check later (based on type, modify from date or to date) */
+    if (type === "from") {
+      dispatch(setDate(dateString));
+    } else {
+      dispatch(setToDate(dateString));
+    }
+  };
 
   const dateValue = date ? dayjs(date) : null;
 
   return (
     <DatePicker
       placeholder="Select Date"
-      // onChange={handleDateChange}
+      onChange={date ? handleDateChange : undefined}
       value={dateValue}
       style={{ width: "100%" }}
       {...props}

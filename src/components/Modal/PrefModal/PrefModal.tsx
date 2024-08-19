@@ -5,11 +5,12 @@ import { AppDispatch, RootState } from "../../../store";
 import useNewsPageCtx from "../../../hooks/useNewsPageCtx";
 import DatePickerComp from "../../PrefHeader/DatePicker";
 import LargeModal from "../../UI/Modals";
-import classes from "./PrefModule.module.css";
 import { S1_PARAMS } from "../../../globals";
 import dayjs from "dayjs";
-import { setEverything } from "../../../store/FiltersSlice";
+import { setEverything } from "../../../store/Slices/FiltersSlice";
 import { EverythingParams } from "../../../types/redux";
+import { stringToArray } from "../../../utils";
+import classes from "./PrefModule.module.css";
 
 interface PrefModalProps {
   open: boolean;
@@ -71,27 +72,18 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
     const newValues: any = { ...values };
     const { searchIn, from, to } = values;
     if (searchIn && searchIn.includes(",")) {
-      const stringToArray = (str: string) => {
-        const arr = str
-          .split(",")
-          .map((item: string) => item.trim())
-          .filter((item: string) => item !== "");
-        console.log("arr", arr);
-        return arr;
-      };
       newValues.searchIn = stringToArray(searchIn);
     }
-    // if (from) {
-    //   values.from = dayjs(values.from);
-    // }
-    // if (to) {
-    //   values.to = dayjs(values.to);
-    // }
+    if (from) {
+      newValues.from = dayjs(values.from);
+    }
+    if (to) {
+      newValues.to = dayjs(values.to);
+    }
 
     return newValues;
   };
   const properInitialValues = transformInitialValues(everything);
-  console.log("properInitialValues :>> ", properInitialValues);
 
   return (
     <LargeModal

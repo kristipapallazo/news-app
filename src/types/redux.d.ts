@@ -1,10 +1,4 @@
-import { Article, Categ, DSourceType, Module, SourceType } from "./types";
-
-interface ArticleState {
-  articles: Article[];
-  status: "idle" | "loading" | "succeeded" | "failed";
-  message: string | null;
-}
+import { DSourceType, Module } from "./types";
 
 type SearchIn = "title" | "description" | "content";
 type Source = string | null;
@@ -15,6 +9,8 @@ type Language = string | null;
 type SortBy = "relevancy" | "popularity" | "publishedAt";
 type PageSize = number | null;
 type Page = number;
+type Country = string | null;
+type Category = string | null;
 
 interface EverythingParams {
   q: string;
@@ -30,30 +26,17 @@ interface EverythingParams {
   page: Page;
 }
 interface TopHeadlinesParams {
+  country: Country;
+  category: Category;
+  sources: Source;
   q: string;
-  searchIn: SearchIn;
-  source: Source;
-  domains: Domains;
-  excludeDomains: ExcludeDomains;
-  from: From;
-  to: To;
-  language: Language;
-  sortBy: SortBy;
   pageSize: PageSize;
   page: Page;
 }
 interface SourcesParams {
-  q: string;
-  searchIn: SearchIn;
-  source: Source;
-  domains: Domains;
-  excludeDomains: ExcludeDomains;
-  from: From;
-  to: To;
+  country: Country;
+  category: Category;
   language: Language;
-  sortBy: SortBy;
-  pageSize: PageSize;
-  page: Page;
 }
 interface FiltersState {
   everything: Partial<EverythingParams>;
@@ -89,7 +72,11 @@ interface NewsTypeParams {
   category: Category;
 }
 
-type Route = "everything" | "top-headlines" | "sources"; /* check later */
+type Route =
+  | "everything"
+  | "top-headlines"
+  | "top-headlines/sources"
+  | "articlesearch.json"; /* check later */
 interface UIState {
   module: Module;
   selectedArticle: string;

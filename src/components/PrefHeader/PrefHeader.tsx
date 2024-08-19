@@ -1,29 +1,26 @@
 import { FC } from "react";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Row, Col } from "antd";
-// import { RootState } from "../../store";
+import { RootState } from "../../store";
 import SourceSelect from "./SourceSelect";
-import CategsSelect from "./CategsSelect";
 import DatePickerComp from "./DatePicker";
 import InputKeyword from "./InputKeyword";
 import classes from "./PrefHeader.module.css";
 import PrefModuleBtn from "./PrefModuleBtn";
 
 const PrefHeader: FC = () => {
-  // const { categ, source, keyword, date } = useSelector(
-  //   (state: RootState) => state.filters
-  // );
+  const { source } = useSelector(
+    (state: RootState) => state.filters.everything
+  );
 
   return (
     <div className={classes.header}>
-      {/* <Row gutter={[16, 16]} style={{ flex: 1 }}>
+      <Row gutter={[16, 16]} style={{ flex: 1 }}>
         <Col xs={24} sm={12} md={6}>
-          <SourceSelect />
+          <SourceSelect source={source} />
         </Col>
 
-        <Col xs={24} sm={12} md={6}>
-          <CategsSelect />
-        </Col>
+        <Col xs={24} sm={12} md={6}></Col>
 
         <Col xs={24} sm={12} md={6}>
           <DatePickerComp />
@@ -32,7 +29,7 @@ const PrefHeader: FC = () => {
         <Col xs={24} sm={12} md={6}>
           <InputKeyword />
         </Col>
-      </Row> */}
+      </Row>
       <PrefModuleBtn />
     </div>
   );

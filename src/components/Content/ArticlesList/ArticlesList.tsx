@@ -6,9 +6,7 @@ import classes from "./ArticlesList.module.css";
 import MessageLabel from "../../UI/MessageLabel/MessageLabel";
 
 const ArticlesList: FC = () => {
-  const test = useSelector((state: RootState) => state.articles);
-  console.log("test :>> ", test);
-  const { articles } = test;
+  const articles = useSelector((state: RootState) => state.articles.articles);
 
   console.log("articles", articles);
   const items = articles.map((article) => (

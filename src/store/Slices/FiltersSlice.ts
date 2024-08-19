@@ -1,9 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { FiltersState } from "../types/redux";
+import { FiltersState } from "../../types/redux";
 
 const initialState: FiltersState = {
-  everything: { q: "test" },
-  topheadlines: {},
+  everything: {
+    q: "test",
+    sortBy: "popularity",
+    language: "en",
+    pageSize: 100,
+    page: 1,
+  },
+  topheadlines: { pageSize: 100, page: 1 },
   sources: {},
 };
 

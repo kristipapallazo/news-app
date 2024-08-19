@@ -1,4 +1,8 @@
-import { ResData, SourceType } from "../types/types";
+import { Articles, SourceType } from "../types/types";
+
+interface ResData {
+  articles: Articles;
+}
 
 const transformNewsAPIData = (data: NewsAPIData): ResData => {
   const articles = data.articles.map((article, i) => {

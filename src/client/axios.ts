@@ -8,6 +8,7 @@ import axios, {
 } from "axios";
 import { G_API, NEWS_API, NYC_API } from "../globals";
 import { transformRes } from "../utils/transformReqData";
+import { handleTransformUrl } from "../utils";
 
 const instance = axios.create({
   baseURL: "",
@@ -15,40 +16,17 @@ const instance = axios.create({
   // headers: { "Content-Type": "application/json" },
 });
 
-type Res<T> = {
-  data?: T;
-  error?: boolean;
-  message?: string;
-};
-
-const transformUrl = (url: string): string => {
-  let newUrl: string = url;
-  if (url.includes(NEWS_API.baseUrl)) {
-    newUrl += `apiKey=${NEWS_API.apiKey}`;
-  } else if (url.includes(NYC_API.baseUrl)) {
-    newUrl += `api-key=${NYC_API.apiKey}`;
-  } else if (url.includes(G_API.baseUrl)) {
-    newUrl += `api-key=${G_API.apiKey}`;
-  } else {
-    // in any case, define to the default one
-    newUrl += `apiKey=${NEWS_API.apiKey}`;
-  }
-
-  return newUrl;
-};
+// type Res<T> = {
+//   data?: T;
+//   error?: boolean;
+//   message?: string;
+// };
 
 instance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
-    const { url, params } = config;
-    // check if the api type is supported, otherwise derive it to default
-    if (!config.baseURL) {
-      instance.defaults.baseURL = "";
-    }
-
-    if (!url) {
-      alert("Url does not exist!");
-    }
-    const newUrl = transformUrl(url!);
+    const { params } = config;
+    const newUrl = handleTransformUrl(params.dSource, params.route);
+    console.log("newUrl :>> ", newUrl);
     config.url = newUrl;
 
     console.log("config :>> ", config);
@@ -73,6 +51,9 @@ instance.interceptors.response.use(
     const { data, config } = response;
     if (!data) {
       throw new Error("Error occurred, data does not exist in response!");
+    }
+    if (config.params.route === "top-headlines/sources") {
+      return response;
     }
     const newData = transformRes(data, config.params.dSource);
     console.log("response :>> ", response);
