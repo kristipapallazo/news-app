@@ -2,14 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import articlesReducer from "./Slices/ArticlesSlice";
 import uiReducer from "./Slices/UISlice";
 import filtersReducer from "./Slices/FiltersSlice";
-import sourcesReducer from "./Slices/SourcesSlice";
+import newsApiReducer from "./Slices/NewsApiSlice";
 import userPreferencesReducer from "./Slices/UserPrefSlice";
 
 const store = configureStore({
   reducer: {
     filters: filtersReducer,
     articles: articlesReducer,
-    sources: sourcesReducer,
+    newsApi: newsApiReducer,
     userPref: userPreferencesReducer,
     ui: uiReducer,
   },

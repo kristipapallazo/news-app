@@ -10,35 +10,7 @@ import { AxiosRequestConfig } from "axios";
 import Footer from "./components/Footer/Footer";
 import { setIsMobile } from "./store/Slices/UISlice";
 import { Spin } from "antd";
-import { fetchSources } from "./store/Slices/SourcesSlice";
-
-// const handleReq = async (url: string) => {
-//   try {
-//     const route = "/everything?";
-//     const route1 = "/top-headlines?";
-
-//     // const url =
-//     //   baseUrl + route + "q=test&" + "from=2024-08-10" + "&sortBy=popularity";
-//     // const url2 = `${NYC_API.baseUrl}/articlesearch.json?q=e`;
-//     // const url2 = `https://api.nytimes.com/svc/search/v2/articlesearch.json?q=e&api-key=${NYC_API.apiKey}`;
-//     // const url3 = `${G_API.baseUrl}/search?q=debates`;
-
-//     // const res1 = await AxiosClient.get(url);
-//     // console.log("res1 :>> ", res1);
-//     const res = await fetch(url + `&api-key=${NEWS_API.apiKey}`);
-//     console.log("res :>> ", res);
-//     if (!res) throw new Error("Error during request!");
-//     const data = await res.json();
-//     // const { data } = res;
-//     console.log("data :>> ", data);
-//     if (!data) throw new Error("Data is missing!");
-//     return { data };
-//   } catch (error) {
-//     const e = error as Error;
-//     console.log("e :>> ", e);
-//     return { error: true, message: e.message };
-//   }
-// };
+import { fetchSources } from "./store/Slices/NewsApiSlice";
 
 let isInitial = true;
 function App() {
@@ -46,12 +18,8 @@ function App() {
 
   const status = useSelector((state: RootState) => state.articles.status);
   const filters = useSelector((state: RootState) => state.filters.everything);
-  const sources = useSelector((state: RootState) => state.sources.sources);
-  const { dSource, route } = useSelector((state: RootState) => state.ui);
 
-  console.log("sources :>> ", sources);
-
-  console.log("filters :>> ", filters);
+  const { dSource } = useSelector((state: RootState) => state.ui);
 
   const memoizedFilters = useMemo(() => filters, [filters]);
 
@@ -61,7 +29,6 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    /* check device type */
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
@@ -69,25 +36,23 @@ function App() {
   useEffect(() => {
     if (isInitial) {
       handleResize();
-
+      const sourcesConfig: AxiosRequestConfig = {
+        params: { ...memoizedFilters, dSource, route: "top-headlines/sources" },
+      };
+      dispatch(fetchSources({ url: "", config: sourcesConfig }));
       isInitial = false;
     }
-  }, [dispatch, handleResize]);
+  }, [dispatch, handleResize, dSource, memoizedFilters]);
+
   useEffect(() => {
-    // const url = handleUrl(dSource);
     const url = "";
 
-    console.log("memoizeFilter", memoizedFilters);
     const config: AxiosRequestConfig = {
-      params: { ...memoizedFilters, dSource, route },
-    };
-    const sourcesConfig: AxiosRequestConfig = {
-      params: { ...memoizedFilters, dSource, route: "top-headlines/sources" },
+      params: { ...memoizedFilters, dSource },
     };
 
-    // dispatch(fetchArticles({ url, config }));
-    dispatch(fetchSources({ url, config: sourcesConfig }));
-  }, [memoizedFilters, dispatch, dSource, route]);
+    dispatch(fetchArticles({ url, config }));
+  }, [memoizedFilters, dispatch, dSource]);
 
   return (
     <div className="app">

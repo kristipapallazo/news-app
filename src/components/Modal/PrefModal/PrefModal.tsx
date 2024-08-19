@@ -8,9 +8,9 @@ import LargeModal from "../../UI/Modals";
 import { S1_PARAMS } from "../../../globals";
 import dayjs from "dayjs";
 import { setEverything } from "../../../store/Slices/FiltersSlice";
-import { EverythingParams } from "../../../types/redux";
 import { stringToArray } from "../../../utils";
-import classes from "./PrefModule.module.css";
+import SourceSelect from "../../PrefHeader/SourceSelect";
+// import classes from "./PrefModule.module.css";
 
 interface PrefModalProps {
   open: boolean;
@@ -22,7 +22,6 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
   const everything = useSelector(
     (state: RootState) => state.filters.everything
   );
-  const route = useSelector((state: RootState) => state.ui.route);
 
   const [form] = Form.useForm();
 
@@ -48,7 +47,6 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
     if (to) {
       values.to = dayjs(values.to).toISOString();
     }
-    console.log("values:", values);
     dispatch(setEverything(values));
 
     onClose();
@@ -69,6 +67,7 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
     label: i,
   }));
   const transformInitialValues = (values: Partial<EverythingParams>) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const newValues: any = { ...values };
     const { searchIn, from, to } = values;
     if (searchIn && searchIn.includes(",")) {
@@ -110,7 +109,7 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
         </Form.Item>
 
         <Form.Item label="Sources" name="sources">
-          <Input placeholder="Comma-separated sources" max={20} />
+          <SourceSelect />
         </Form.Item>
 
         <Form.Item label="Domains" name="domains">
@@ -126,7 +125,7 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
         </Form.Item>
 
         <Form.Item label="To" name="to">
-          <DatePickerComp placeholder="Select end date" />
+          <DatePickerComp placeholder="Select end date" type="to" />
         </Form.Item>
 
         <Form.Item label="Language" name="language">

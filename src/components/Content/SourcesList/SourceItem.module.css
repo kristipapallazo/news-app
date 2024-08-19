@@ -8,24 +8,20 @@
   margin: 0 0 0.5em;
   font-size: 1.2em;
 }
+
 .content {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
-  /* margin-bottom: 10px; */
 }
 
-.content,
-.source {
-  margin: 0 0 1em;
+.category,
+.language,
+.country {
+  margin: 0.5em 0;
   color: #555;
-}
-
-.date {
-  display: block;
-  color: gray;
 }
 
 .link {
@@ -43,9 +39,13 @@
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid #ddd;
+  padding-top: 1em;
 }
-
 /* fixed height */
+
+.category,
+.language,
+.country,
 .source,
 .bottomLine,
 .title {

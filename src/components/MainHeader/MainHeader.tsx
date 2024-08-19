@@ -1,17 +1,13 @@
 import { MenuProps } from "antd";
 import { Header } from "antd/es/layout/layout";
 import { FC } from "react";
-import { Module } from "../../types/types";
 import { Menu } from "antd";
 import { MenuItemType } from "antd/es/menu/interface";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { setModule } from "../../store/Slices/UISlice";
-import SourceSelect from "../PrefHeader/SourceSelect";
-import classes from "./MainHeader.module.css";
 import DSourceSelect from "./DSourceSelect";
-
-// type MenuItem = Required<MenuProps>["items"][number];
+import classes from "./MainHeader.module.css";
 
 const MainHeader: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -54,6 +50,7 @@ const MainHeader: FC = () => {
         mode="horizontal"
         items={items}
         theme="light"
+        style={{ flex: 1 }}
       />
       <DSourceSelect />
     </Header>

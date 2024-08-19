@@ -1,14 +1,14 @@
-import dayjs from "dayjs";
 import { FC } from "react";
-// import { setDate, setToDate } from "../../store/FiltersSlice";
+import dayjs from "dayjs";
 import { DatePicker, DatePickerProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { Date } from "../../types/redux";
+import { setEverything } from "../../store/Slices/FiltersSlice";
 
 interface DatePickerCompProps extends DatePickerProps {
   date?: Date;
   type?: "from" | "to";
+  stateful?: boolean;
 }
 const DatePickerComp: FC<DatePickerCompProps> = ({
   date,
@@ -16,14 +16,16 @@ const DatePickerComp: FC<DatePickerCompProps> = ({
   ...props
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const everything = useSelector(
+    (state: RootState) => state.filters.everything
+  );
 
-  const handleDateChange: DatePickerProps["onChange"] = (date, dateString) => {
-    console.log("date, dateString", date, dateString);
+  const handleDateChange: DatePickerProps["onChange"] = (_date, dateString) => {
     /* check later (based on type, modify from date or to date) */
     if (type === "from") {
-      dispatch(setDate(dateString));
+      dispatch(setEverything({ ...everything, from: dateString }));
     } else {
-      dispatch(setToDate(dateString));
+      dispatch(setEverything({ ...everything, to: dateString }));
     }
   };
 

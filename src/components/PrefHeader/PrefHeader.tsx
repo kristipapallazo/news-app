@@ -3,13 +3,14 @@ import { useSelector } from "react-redux";
 import { Row, Col } from "antd";
 import { RootState } from "../../store";
 import SourceSelect from "./SourceSelect";
-import DatePickerComp from "./DatePicker";
+// import DatePickerComp from "./DatePicker";
 import InputKeyword from "./InputKeyword";
-import classes from "./PrefHeader.module.css";
 import PrefModuleBtn from "./PrefModuleBtn";
+import PageSelect from "./PageSelect";
+import classes from "./PrefHeader.module.css";
 
 const PrefHeader: FC = () => {
-  const { source } = useSelector(
+  const { sources, page /* from */ } = useSelector(
     (state: RootState) => state.filters.everything
   );
 
@@ -17,17 +18,19 @@ const PrefHeader: FC = () => {
     <div className={classes.header}>
       <Row gutter={[16, 16]} style={{ flex: 1 }}>
         <Col xs={24} sm={12} md={6}>
-          <SourceSelect source={source} />
-        </Col>
-
-        <Col xs={24} sm={12} md={6}></Col>
-
-        <Col xs={24} sm={12} md={6}>
-          <DatePickerComp />
-        </Col>
-
-        <Col xs={24} sm={12} md={6}>
           <InputKeyword />
+        </Col>
+
+        <Col xs={24} sm={12} md={6}>
+          <SourceSelect sources={sources} stateful={true} />
+        </Col>
+
+        <Col xs={24} sm={12} md={6}>
+          {/* <DatePickerComp stateful={true} date={from} /> */}
+        </Col>
+
+        <Col xs={24} sm={12} md={6}>
+          <PageSelect page={page} stateful={true} />
         </Col>
       </Row>
       <PrefModuleBtn />

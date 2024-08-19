@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UserPrefState } from "../../types/redux";
 
 const initialState: UserPrefState = {
   preferredSources: [],

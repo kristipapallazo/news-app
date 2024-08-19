@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UIState } from "../../types/redux";
 
 const initialState: UIState = {
   module: "home",

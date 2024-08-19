@@ -1,31 +1,26 @@
 import { FC } from "react";
-import { CategTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { setCateg } from "../../store/Slices/FiltersSlice";
+import { /* useDispatch, */ useSelector } from "react-redux";
+import { /* AppDispatch, */ RootState } from "../../store";
+import { S1_PARAMS } from "../../globals";
+import { upperCaseFrstLetter } from "../../utils";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface CategsSelectProps extends SelectProps {
-  // categ: Categ;
+  categ?: Categ;
 }
 
 const CategsSelect: FC<CategsSelectProps> = ({ ...props }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  // const dispatch = useDispatch<AppDispatch>();
   const categ = useSelector((state: RootState) => state.filters);
 
-  const sourceTypeObj: CategTypeArr = [
-    { id: "news_api", name: "News Api" },
-    { id: "nyc", name: "NYC" },
-    { id: "guardian", name: "Guardian" },
-  ];
-  const options = sourceTypeObj.map(({ id, name }) => ({
-    value: id,
-    name: name,
+  const options = S1_PARAMS.category.map((categ) => ({
+    value: categ,
+    name: upperCaseFrstLetter(categ),
   }));
 
   const handleCategChange = (value: string) => {
-    dispatch(setCateg(value));
+    console.log("value", value);
+    // dispatch(setCateg(value));
   };
   return (
     <Select

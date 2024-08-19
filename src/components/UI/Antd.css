@@ -121,3 +121,6 @@
   height: calc(100% - 100px);
   overflow: auto;
 }
+.ant-layout-header {
+  padding: 0 10px 0 0;
+}

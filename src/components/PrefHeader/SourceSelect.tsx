@@ -1,40 +1,43 @@
 import { FC } from "react";
-import { SourceTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { Source } from "../../types/redux";
 import { setEverything } from "../../store/Slices/FiltersSlice";
 
 interface SourceSelect extends SelectProps {
-  source?: Source;
+  sources?: Source;
+  stateful?: boolean;
 }
-const SourceSelect: FC<SourceSelect> = ({ source, ...props }) => {
+const SourceSelect: FC<SourceSelect> = ({
+  stateful,
+  sources,
+  // mode = "multiple",
+  ...props
+}) => {
   const dispatch = useDispatch<AppDispatch>();
+  const sourcesAllIds = useSelector(
+    (state: RootState) => state.newsApi.sources.sourcesAllIds
+  );
   const everything = useSelector(
     (state: RootState) => state.filters.everything
   );
 
-  const sourceTypeObj: SourceTypeArr = [
-    { value: "news_api", label: "News Api" },
-    { value: "nyc", label: "NYC" },
-    { value: "guardian", label: "Guardian" },
-  ];
-  const options = sourceTypeObj.map(({ value, label }) => ({
-    value,
-    label,
+  const options = sourcesAllIds.map(({ id, name }) => ({
+    value: id,
+    label: name,
   }));
 
   const handleSourceChange = (value: string) => {
-    dispatch(setEverything({ source: value }));
+    dispatch(setEverything({ ...everything, sources: value }));
   };
   return (
     <Select
       options={options}
       placeholder="Select Source"
-      value={source}
-      onChange={handleSourceChange}
+      value={stateful ? sources : undefined}
+      onChange={stateful ? handleSourceChange : undefined}
       style={{ width: "100%" }}
+      // mode={mode}
       {...props}
     />
   );

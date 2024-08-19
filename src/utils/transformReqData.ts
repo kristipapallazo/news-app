@@ -1,5 +1,3 @@
-import { Articles, SourceType } from "../types/types";
-
 interface ResData {
   articles: Articles;
 }
@@ -40,7 +38,7 @@ const transformGAPIData = (data: NewsAPIData): ResData => {
   return { articles };
 };
 
-export const transformRes = (data: unknown, dSource: SourceType): ResData => {
+export const transformRes = (data: unknown, dSource: DSourceType): ResData => {
   let newData = null;
   switch (dSource) {
     case "news_api":

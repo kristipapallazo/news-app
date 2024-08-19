@@ -1,8 +1,6 @@
-import { NewsAPI } from "../types/types";
-
 export const NEWS_API: NewsAPI = {
   baseUrl: "https://newsapi.org/v2",
-  apiKey: "a832e6c5806745be8e709544ba3b9430",
+  apiKey: "696b8ae818a146319d779c7d8b26aabf",
 };
 export const NYC_API: NewsAPI = {
   baseUrl: "https://api.nytimes.com/svc/search/v2",

@@ -36,7 +36,7 @@ const LargeModal: FC<ModalProps> = (props) => {
 
   return (
     <Modal
-      width={isMobile ? "50vw" : width || "60vw"}
+      width={isMobile ? "90vw" : width || "60vw"}
       centered={centered}
       closable={closable}
       okText={okText}

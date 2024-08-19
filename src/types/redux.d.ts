@@ -1,92 +1,92 @@
 import { DSourceType, Module } from "./types";
 
-type SearchIn = "title" | "description" | "content";
-type Source = string | null;
-type Domains = string | null;
-type ExcludeDomains = string | null;
-type Date = string | null;
-type Language = string | null;
-type SortBy = "relevancy" | "popularity" | "publishedAt";
-type PageSize = number | null;
-type Page = number;
-type Country = string | null;
-type Category = string | null;
+declare global {
+  type SearchIn = "title" | "description" | "content";
+  type Source = string | null;
+  type Domains = string | null;
+  type ExcludeDomains = string | null;
+  type Date = string | null;
+  type Language = string | null;
+  type SortBy = "relevancy" | "popularity" | "publishedAt";
+  type PageSize = number | null;
+  type Page = number;
+  type Country = string | null;
+  type Category = string | null;
 
-interface EverythingParams {
-  q: string;
-  searchIn: SearchIn;
-  source: Source;
-  domains: Domains;
-  excludeDomains: ExcludeDomains;
-  from: Date;
-  to: Date;
-  language: Language;
-  sortBy: SortBy;
-  pageSize: PageSize;
-  page: Page;
-}
-interface TopHeadlinesParams {
-  country: Country;
-  category: Category;
-  sources: Source;
-  q: string;
-  pageSize: PageSize;
-  page: Page;
-}
-interface SourcesParams {
-  country: Country;
-  category: Category;
-  language: Language;
-}
-interface FiltersState {
-  everything: Partial<EverythingParams>;
-  topheadlines: Partial<TopHeadlinesParams>;
-  sources: Partial<SourcesParams>;
-}
+  interface EverythingParams {
+    q: string;
+    searchIn: SearchIn;
+    sources: Source;
+    domains: Domains;
+    excludeDomains: ExcludeDomains;
+    from: Date;
+    to: Date;
+    language: Language;
+    sortBy: SortBy;
+    pageSize: PageSize;
+    page: Page;
+  }
+  interface TopHeadlinesParams {
+    country: Country;
+    category: Category;
+    sources: Source;
+    q: string;
+    pageSize: PageSize;
+    page: Page;
+  }
+  interface SourcesParams {
+    country: Country;
+    category: Category;
+    language: Language;
+  }
+  interface FiltersState {
+    everything: Partial<EverythingParams>;
+    topheadlines: Partial<TopHeadlinesParams>;
+    sources: Partial<SourcesParams>;
+  }
 
-/* news api */
+  /* news api */
 
-// type SearchIn = "title" | "description" | "content";
-type SearchIn = string;
-type Language = string;
-type SortBy = "relevancy" | "popularity" | "publishedAt";
-type PageSize = number;
-type Page = number;
-/* below are for /topheadlines route */
-type Country = "string"; //check later => define specific country
-type Category = "string"; //check later => define specific category
-interface NewsTypeParams {
-  q: string;
-  searchIn: SearchIn;
-  sources: string;
-  domains: string;
-  excludeDomains: string;
-  from: string;
-  to: string;
-  language: Language;
-  sortBy: SortBy;
-  pageSize: PageSize;
-  page: Page;
+  // type SearchIn = "title" | "description" | "content";
+  type SearchIn = string;
+  type Language = string;
+  type SortBy = "relevancy" | "popularity" | "publishedAt";
+  type PageSize = number;
+  type Page = number;
   /* below are for /topheadlines route */
-  country: Country;
-  category: Category;
+  type Country = "string"; //check later => define specific country
+  type Category = "string"; //check later => define specific category
+  interface NewsTypeParams {
+    q: string;
+    searchIn: SearchIn;
+    sources: string;
+    domains: string;
+    excludeDomains: string;
+    from: string;
+    to: string;
+    language: Language;
+    sortBy: SortBy;
+    pageSize: PageSize;
+    page: Page;
+    /* below are for /topheadlines route */
+    country: Country;
+    category: Category;
+  }
+
+  type Route = "everything" | "top-headlines" | "top-headlines/sources";
+  interface UIState {
+    module: Module;
+    selectedArticle: string;
+    isMobile: boolean;
+    dSource: DSourceType;
+    route: Route;
+  }
+
+  interface UserPrefState {
+    preferredSources: string[];
+    preferredCategories: string[];
+    preferredAuthors: string[];
+  }
 }
 
-type Route =
-  | "everything"
-  | "top-headlines"
-  | "top-headlines/sources"
-  | "articlesearch.json"; /* check later */
-interface UIState {
-  module: Module;
-  selectedArticle: string;
-  isMobile: boolean;
-  dSource: DSourceType;
-  route: Route;
-}
-
-interface UserPrefState {
-  preferredSources: string[];
-  preferredCategories: string[];
-  preferredAuthors: string[];
-}
+export {};

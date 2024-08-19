@@ -4,13 +4,16 @@ import { RootState } from "../../store";
 import classes from "./ArticlePage.module.css";
 
 const ArticlePage: FC = () => {
-  const articles = useSelector((state: RootState) => state.articles.articles);
-  const selectedArticle = useSelector(
-    (state: RootState) => state.ui.selectedArticle
+  const { route, selectedArticle } = useSelector(
+    (state: RootState) => state.ui
   );
+  const articles = useSelector((state: RootState) => {
+    return route === "top-headlines"
+      ? state.newsApi.topHeadlines.articles
+      : state.articles.articles;
+  });
 
   const article = articles.find(({ id }) => id === selectedArticle);
-  console.log("article", article);
 
   const { title, source, author, publishedAt, content, url, urlToImage } =
     article!;

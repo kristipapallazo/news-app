@@ -1,29 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { Articles } from "../../types/types";
 import { asyncFetch } from "../../utils";
 
-interface ArticleState {
+export interface ArticleState {
   articles: Articles;
   status: "idle" | "loading" | "succeeded" | "failed";
   message: string | null;
 }
 
-const initialState: ArticleState = {
+export const articleInitialState: ArticleState = {
   articles: [],
   status: "idle",
   message: null,
 };
 
-interface Data {
+export interface ArticlesData {
   articles: Articles;
 }
 
-export const fetchArticles = asyncFetch<Data>("articles/fetchArticles");
+export const fetchArticles = asyncFetch<ArticlesData>("articles/fetchArticles");
 
 const articlesSlice = createSlice({
   name: "articles",
-  initialState,
+  initialState: articleInitialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -35,8 +33,6 @@ const articlesSlice = createSlice({
         state.articles = action.payload.articles;
       })
       .addCase(fetchArticles.rejected, (state, action) => {
-        console.log("action", action);
-
         state.status = "failed";
         state.message = action.payload || "Failed to fetch articles";
       });

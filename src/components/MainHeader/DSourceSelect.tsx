@@ -1,9 +1,8 @@
 import { FC } from "react";
-import { DSourceTypeArr } from "../../types/types";
 import { Select, SelectProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
-import { setDSource } from "../../store/Slices/UISlice";
+import { setDSource, setRoute } from "../../store/Slices/UISlice";
 
 const DSourceSelect: FC<SelectProps> = ({ ...props }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,8 +18,10 @@ const DSourceSelect: FC<SelectProps> = ({ ...props }) => {
     label,
   }));
 
-  const handleDSourceChange = (value: string) => {
-    dispatch(setDSource(value));
+  const handleDSourceChange = (dSource: DSourceType) => {
+    /* set route to default */
+    if (dSource === "news_api") dispatch(setRoute("everything"));
+    dispatch(setDSource(dSource));
   };
   return (
     <Select
@@ -28,7 +29,6 @@ const DSourceSelect: FC<SelectProps> = ({ ...props }) => {
       placeholder="Select Source"
       value={dSource}
       onChange={handleDSourceChange}
-      // style={{ width: "100%" }}
       {...props}
     />
   );

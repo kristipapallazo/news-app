@@ -1,27 +1,16 @@
 import { FC } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
 import ArticleItem from "./Articletem/ArticleItem";
 import classes from "./ArticlesList.module.css";
-import MessageLabel from "../../UI/MessageLabel/MessageLabel";
 
-const ArticlesList: FC = () => {
-  const articles = useSelector((state: RootState) => state.articles.articles);
-
-  console.log("articles", articles);
+interface ArticlesListProps {
+  articles: Articles;
+}
+const ArticlesList: FC<ArticlesListProps> = ({ articles }) => {
   const items = articles.map((article) => (
     <ArticleItem key={article.id} article={article} />
   ));
 
-  return (
-    <>
-      {items.length > 0 ? (
-        <div className={classes.grid}>{items}</div>
-      ) : (
-        <MessageLabel />
-      )}
-    </>
-  );
+  return <div className={classes.grid}>{items}</div>;
 };
 
 export default ArticlesList;

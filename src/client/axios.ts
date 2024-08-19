@@ -3,17 +3,13 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
-  isAxiosError,
-  // ResponseType,
 } from "axios";
-import { G_API, NEWS_API, NYC_API } from "../globals";
 import { transformRes } from "../utils/transformReqData";
 import { handleTransformUrl } from "../utils";
 
 const instance = axios.create({
   baseURL: "",
-  timeout: 4000,
-  // headers: { "Content-Type": "application/json" },
+  timeout: 5000,
 });
 
 // type Res<T> = {
@@ -26,15 +22,11 @@ instance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     const { params } = config;
     const newUrl = handleTransformUrl(params.dSource, params.route);
-    console.log("newUrl :>> ", newUrl);
     config.url = newUrl;
 
-    console.log("config :>> ", config);
     config.transformResponse = function (data) {
       /* transform response only in case of error occur */
-      console.log("data :>> ", data);
       let newData = JSON.parse(data);
-      console.log("newData :>> ", newData);
       if (newData.status === "error") {
         newData = newData.message;
       }
@@ -56,8 +48,6 @@ instance.interceptors.response.use(
       return response;
     }
     const newData = transformRes(data, config.params.dSource);
-    console.log("response :>> ", response);
-    console.log("newData", newData);
     response.data = newData;
 
     return response;
@@ -80,7 +70,6 @@ export class AxiosClientClass {
   async get<T>(url: string, config?: AxiosRequestConfig<T>) {
     try {
       const response = await this.instance.get<T>(url, config);
-      console.log("response myres :>> ", response);
       if (!response || !response.data)
         throw new Error(response?.statusText || "error occured during the req");
       return { data: response.data };

@@ -1,7 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { DSourceType, FetchArticlesPayload } from "../types/types";
 import AxiosClient from "../client/axios";
-import { Route } from "../types/redux";
 import { G_API, NEWS_API, NYC_API } from "../globals";
 
 export const defineClass = (
@@ -33,7 +31,7 @@ export const handleTransformUrl = (
   route: Route = "everything"
 ): string => {
   let baseUrl: string = NEWS_API.baseUrl;
-  let newRoute: Route = route;
+  let newRoute: string = route;
   let apiKey: string = `apiKey=${NEWS_API.apiKey}`;
 
   switch (dSource) {
@@ -65,3 +63,6 @@ export const stringToArray = (str: string) => {
     .filter((item: string) => item !== "");
   return arr;
 };
+
+export const upperCaseFrstLetter = (str: string) =>
+  str.slice(0, 1).toUpperCase() + str.slice(1);
