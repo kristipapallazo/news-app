@@ -28,7 +28,7 @@ declare global {
     label: string;
   }[];
 
-  type Categ = string | null;
+  type Categ = string | undefined;
 
   interface Article {
     id: string;

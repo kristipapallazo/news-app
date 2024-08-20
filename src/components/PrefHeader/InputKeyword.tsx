@@ -1,20 +1,19 @@
+/* eslint-disable no-unused-vars */
 import { Input, InputProps } from "antd";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
-import { setEverything } from "../../store/Slices/FiltersSlice";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface InputKeywordProps extends InputProps {}
+interface InputKeywordProps extends InputProps {
+  q?: string;
+  handleStateChange: (value: string) => void;
+}
 
-const InputKeyword: FC<InputKeywordProps> = ({ /* keyword, */ ...props }) => {
-  const everything = useSelector(
-    (state: RootState) => state.filters.everything
-  );
-  const { q } = everything;
+const InputKeyword: FC<InputKeywordProps> = ({
+  q,
+  handleStateChange,
+  ...props
+}) => {
   const [input, setInput] = useState<string>();
 
-  const dispatch = useDispatch<AppDispatch>();
   const timeoutRef = useRef<number | null>(null);
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +25,8 @@ const InputKeyword: FC<InputKeywordProps> = ({ /* keyword, */ ...props }) => {
     }
 
     timeoutRef.current = setTimeout(() => {
-      dispatch(setEverything({ ...everything, q }));
+      handleStateChange(value);
+      // dispatch(setEverything({ ...everything, q }));
     }, 300);
     setInput(value);
   };

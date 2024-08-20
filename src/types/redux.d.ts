@@ -5,13 +5,13 @@ declare global {
   type Source = string | null;
   type Domains = string | null;
   type ExcludeDomains = string | null;
-  type Date = string | null;
-  type Language = string | null;
+  type Date = string | undefined;
+  type Language = string | undefined;
   type SortBy = "relevancy" | "popularity" | "publishedAt";
   type PageSize = number | null;
   type Page = number;
-  type Country = string | null;
-  type Category = string | null;
+  type Country = string | undefined;
+  type Category = string | undefined;
 
   interface EverythingParams {
     q: string;

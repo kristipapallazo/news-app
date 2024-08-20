@@ -42,7 +42,7 @@ export const handleTransformUrl = (
       break;
     case "guardian":
       baseUrl = G_API.baseUrl;
-      // newRoute = "check later";
+      newRoute = "search";
       apiKey = `api-key=${G_API.apiKey}`;
       break;
     default:

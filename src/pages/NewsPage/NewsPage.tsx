@@ -12,6 +12,7 @@ import TopHeadlinesList from "../../components/Content/TopHealinesList/TopHeadli
 import SourcesList from "../../components/Content/SourcesList/SourcesList";
 import { ArticleState } from "../../store/Slices/ArticlesSlice";
 import { Spin } from "antd";
+import SourcesPrefHeader from "../../components/PrefHeader/SourcesPrefHeader";
 
 interface ArticlesContainerProps {
   articlesObj: ArticleState;
@@ -42,13 +43,19 @@ const NewsPage: FC = () => {
   return (
     <div className={classes.news}>
       {dSource === "news_api" && <NewsTab />}
-      <PrefHeader />
+
       {route === "top-headlines" ? (
         <TopHeadlinesList />
       ) : route === "top-headlines/sources" ? (
-        <SourcesList />
+        <>
+          <SourcesPrefHeader />
+          <SourcesList />
+        </>
       ) : (
-        <ArticlesContainer articlesObj={articlesObj} />
+        <>
+          <PrefHeader />
+          <ArticlesContainer articlesObj={articlesObj} />
+        </>
       )}
       {isPrefModalOpen && <PrefModal open={isPrefModalOpen} />}
     </div>

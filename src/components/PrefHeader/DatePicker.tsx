@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "../../store";
 import { setEverything } from "../../store/Slices/FiltersSlice";
 
 interface DatePickerCompProps extends DatePickerProps {
-  date?: Date;
+  date?: string | undefined;
   type?: "from" | "to";
   stateful?: boolean;
 }
@@ -22,14 +22,15 @@ const DatePickerComp: FC<DatePickerCompProps> = ({
 
   const handleDateChange: DatePickerProps["onChange"] = (_date, dateString) => {
     /* check later (based on type, modify from date or to date) */
+    console.log("dateString", dateString);
     if (type === "from") {
-      dispatch(setEverything({ ...everything, from: dateString }));
+      dispatch(setEverything({ ...everything, from: dateString as string }));
     } else {
-      dispatch(setEverything({ ...everything, to: dateString }));
+      dispatch(setEverything({ ...everything, to: dateString as string }));
     }
   };
 
-  const dateValue = date ? dayjs(date) : null;
+  const dateValue = date ? dayjs(date) : undefined;
 
   return (
     <DatePicker

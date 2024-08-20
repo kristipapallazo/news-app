@@ -1,8 +1,8 @@
 import { FC } from "react";
-// import classes from "./FavoritesPage.module.css";
+import classes from "./FavoritesPage.module.css";
 
 const FavoritesPage: FC = () => {
-  return <div>Fav</div>;
+  return <div className="fav">Fav</div>;
 };
 
 export default FavoritesPage;

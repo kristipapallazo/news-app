@@ -12,12 +12,6 @@ const instance = axios.create({
   timeout: 5000,
 });
 
-// type Res<T> = {
-//   data?: T;
-//   error?: boolean;
-//   message?: string;
-// };
-
 instance.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     const { params } = config;

@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { setEverything } from "../../../store/Slices/FiltersSlice";
 import { stringToArray } from "../../../utils";
 import SourceSelect from "../../PrefHeader/SourceSelect";
+import LangSelect from "../../PrefHeader/LangSelect";
 // import classes from "./PrefModule.module.css";
 
 interface PrefModalProps {
@@ -53,11 +54,6 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
   };
 
   const searchInOptions = S1_PARAMS.searchIn.map((i) => ({
-    value: i,
-    label: i,
-  }));
-
-  const langOptions = S1_PARAMS.language.map((i) => ({
     value: i,
     label: i,
   }));
@@ -129,7 +125,7 @@ const PrefModal: FC<PrefModalProps> = ({ open }) => {
         </Form.Item>
 
         <Form.Item label="Language" name="language">
-          <Select options={langOptions} placeholder="Select language" />
+          <LangSelect />
         </Form.Item>
 
         <Form.Item label="Sort By" name="sortBy">

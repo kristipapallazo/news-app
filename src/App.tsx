@@ -18,10 +18,14 @@ function App() {
 
   const status = useSelector((state: RootState) => state.articles.status);
   const filters = useSelector((state: RootState) => state.filters.everything);
+  const sourcesFilters = useSelector(
+    (state: RootState) => state.filters.sources
+  );
 
   const { dSource } = useSelector((state: RootState) => state.ui);
 
   const memoizedFilters = useMemo(() => filters, [filters]);
+  const memoizedSourceFilters = useMemo(() => sourcesFilters, [sourcesFilters]);
 
   const handleResize = useCallback(() => {
     const isMobile = window.innerWidth <= 768;
@@ -37,12 +41,16 @@ function App() {
     if (isInitial) {
       handleResize();
       const sourcesConfig: AxiosRequestConfig = {
-        params: { ...memoizedFilters, dSource, route: "top-headlines/sources" },
+        params: {
+          ...memoizedSourceFilters,
+          dSource,
+          route: "top-headlines/sources",
+        },
       };
       dispatch(fetchSources({ url: "", config: sourcesConfig }));
       isInitial = false;
     }
-  }, [dispatch, handleResize, dSource, memoizedFilters]);
+  }, [dispatch, handleResize, dSource, memoizedSourceFilters]);
 
   useEffect(() => {
     const url = "";
