@@ -1,10 +1,6 @@
-# React App Docker Setup
-
-## Prerequisites
+## Steps to run the project in a Docker Container
 
 - Ensure you have Docker installed on your system.
-
-## Steps to Run the Project in a Docker Container
 
 1. Clone the repository:
 
@@ -12,6 +8,22 @@
    git clone https://github.com/your-repo.git
    cd your-repo
    ```
+
+2. Build the Docker image:
+
+   ```bash
+   docker build -t my-react-app .
+   ```
+
+3. Run the Docker container:
+
+   ```bash
+   docker run -p 8080:80 my-react-app
+   ```
+
+4. Open the app in browser:
+
+- Visit http://localhost:8080.
 
 # React + TypeScript + Vite
 
